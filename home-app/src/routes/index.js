@@ -4,7 +4,7 @@ export const routes = {
   forgotPassword: '/forgot-password',
   login: '/login',
   tasks: '/tasks',
-  money: '/money',
+  budget: '/budget',
   shoppingList: '/shopping-list',
-  accountSettings: '/account-settings',
+  settings: '/settings',
 };
