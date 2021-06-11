@@ -17,6 +17,9 @@ body {
     font-family: "Montserrat", sans-serif;
     background: #1A1D53;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 `;
 
