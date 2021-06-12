@@ -20,7 +20,7 @@ const StyledHeading = styled(Heading)`
 
 const ShoppingPage = () => (
   <UserTemplate>
-    <StyledHeading big>Twoje dzisiejsze zadania</StyledHeading>
+    <StyledHeading big>Twoja lista zakupów</StyledHeading>
     <StyledGrid>
       {staticData.map(({ name, id, description }) => (
         <TaskCard name={name} key={id} description={description} />

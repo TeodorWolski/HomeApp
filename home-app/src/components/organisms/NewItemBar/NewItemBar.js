@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading/Heading';
 import PropTypes from 'prop-types';
@@ -72,6 +72,7 @@ const NewItemBar = ({ isVisible, handleClose }) => {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <StyledWrapper handleClose={handleClose} isVisible={isVisible}>
       <StyledHeading big>Dodaj zadanie do wykonania</StyledHeading>
@@ -80,20 +81,23 @@ const NewItemBar = ({ isVisible, handleClose }) => {
           placeholder="nazwa zadania"
           type="text"
           name="name"
-          {...register('name', { required: 'Required' })}
+          defaultValue=""
+          {...register('name')}
         />
         <StyledInput
           placeholder="data wykonania"
           type="text"
           name="data"
-          {...register('data', { required: 'Required' })}
+          defaultValue=""
+          {...register('data')}
         />
         <StyledTextArea
           type="text"
           placeholder="opis"
           name="description"
           as="textarea"
-          {...register('description', { required: 'Required' })}
+          defaultValue=""
+          {...register('description')}
         />
         <StyledButton type="submit">Zapisz</StyledButton>
       </StyledForm>
