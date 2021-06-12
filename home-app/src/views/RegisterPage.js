@@ -8,6 +8,7 @@ import { routes } from 'routes';
 import AuthTemplate from 'templates/AuthTemplate';
 import { Formik, Form } from 'formik';
 import Message from 'components/atoms/Message/Message';
+import { useAuth } from 'context/AuthContext';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -32,45 +33,77 @@ const StyledLink = styled(Link)`
   margin: 20px 0 50px;
 `;
 
-const RegisterPage = () => (
-  <AuthTemplate>
-    <Formik>
-      {({ handleChange, handleBlur }) => (
-        <>
-          <Heading>Zarejestruj się!</Heading>
-          {/* {error && <Message>{error}</Message>} */}
-          <StyledForm>
-            <StyledInput
-              type="email"
-              placeholder="E-mail"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // ref={emailRef}
-              required
-            />
-            <StyledInput
-              type="password"
-              placeholder="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // ref={passwordRef}
-              required
-            />
-            <StyledInput
-              type="password"
-              placeholder="re-type password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // ref={passwordConfirmRef}
-              required
-            />
-            <Button type="submit">Zarejestruj się!</Button>
-          </StyledForm>
-          <StyledLink to={routes.login}>Masz już konto?</StyledLink>
-        </>
-      )}
-    </Formik>
-  </AuthTemplate>
-);
+const RegisterPage = () => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { signUp } = useAuth();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  // eslint-disable-next-line consistent-return
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError('Hasła nie pasują!');
+    }
+
+    try {
+      setError('');
+      setLoading(true);
+      await signUp(emailRef.current.value, passwordRef.current.value);
+      history.push(routes.tasks);
+    } catch {
+      setError('Błąd w tworzeniu konta!');
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <AuthTemplate>
+      <Formik>
+        {({ handleChange, handleBlur }) => (
+          <>
+            <Heading>Załóż konto</Heading>
+            {error && <Message>{error}</Message>}
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledInput
+                type="email"
+                placeholder="E-mail rodziny"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                ref={emailRef}
+                required
+              />
+              <StyledInput
+                type="password"
+                placeholder="hasło"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                ref={passwordRef}
+                required
+              />
+              <StyledInput
+                type="password"
+                placeholder="powtórz"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                ref={passwordConfirmRef}
+                required
+              />
+              <Button disabled={loading} type="submit">
+                Zarejestruj się!
+              </Button>
+            </StyledForm>
+            <StyledLink to={routes.login}>Masz już konto?</StyledLink>
+          </>
+        )}
+      </Formik>
+    </AuthTemplate>
+  );
+};
 
 export default RegisterPage;

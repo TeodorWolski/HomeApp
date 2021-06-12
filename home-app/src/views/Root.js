@@ -9,21 +9,25 @@ import ShoppingPage from 'views/ShoppingPage';
 import BudgetPage from 'views/BudgetPage';
 import SettingsPage from 'views/SettingsPage';
 import { routes } from 'routes';
+import { AuthProvider } from 'context/AuthContext';
+import PrivateRoute from 'routes/PrivateRoute';
 
 const Root = () => (
   <BrowserRouter>
-    <MainTemplate>
-      <Switch>
-        <Route exact path={routes.load} render={() => <Redirect to={routes.login} />} />
-        <Route path={routes.login} component={LoginPage} />
-        <Route path={routes.register} component={RegisterPage} />
-        <Route exact path={routes.tasks} component={TasksPage} />
-        <Route exact path={routes.budget} component={BudgetPage} />
-        <Route exact path={routes.settings} component={SettingsPage} />
-        <Route exact path={routes.shoppingList} component={ShoppingPage} />
-        <Route path={routes.forgotPassword} component={ForgotPasswordPage} />
-      </Switch>
-    </MainTemplate>
+    <AuthProvider>
+      <MainTemplate>
+        <Switch>
+          <Route exact path={routes.load} render={() => <Redirect to={routes.login} />} />
+          <Route path={routes.login} component={LoginPage} />
+          <Route path={routes.register} component={RegisterPage} />
+          <PrivateRoute exact path={routes.tasks} component={TasksPage} />
+          <PrivateRoute exact path={routes.budget} component={BudgetPage} />
+          <PrivateRoute exact path={routes.settings} component={SettingsPage} />
+          <PrivateRoute exact path={routes.shoppingList} component={ShoppingPage} />
+          <Route path={routes.forgotPassword} component={ForgotPasswordPage} />
+        </Switch>
+      </MainTemplate>
+    </AuthProvider>
   </BrowserRouter>
 );
 

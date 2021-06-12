@@ -5,6 +5,7 @@ import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import doneIcon from 'assets/icons/done.svg';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
+import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   height: 200px;
@@ -58,19 +59,23 @@ const StyledButtonIcon = styled(ButtonIcon)`
   border-radius: 50px;
 `;
 
-const TaskCard = () => (
-  <StyledWrapper>
+const TaskCard = ({ name, id, description, data }) => (
+  <StyledWrapper key={id}>
     <InnerWrapper>
-      <Heading>Odkurz</Heading>
+      <Heading>{name}</Heading>
       <StyledButtonIcon icon={doneIcon} />
     </InnerWrapper>
     <InnerWrapper flex>
-      <StyledParagraph>
-        lorem ipsum dolor sit amet, consectetur adipiscing elit sdafjlsafdnjlk
-      </StyledParagraph>
-      <StyledButton secondary>Remove</StyledButton>
+      <StyledParagraph>{description}</StyledParagraph>
     </InnerWrapper>
   </StyledWrapper>
 );
+
+TaskCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  data: PropTypes.string.isRequired,
+};
 
 export default TaskCard;
